@@ -172,6 +172,178 @@ $(document).ready(function () {
 
 
 <!-- rnb-text-begin -->
+<div id="final-exercise-software-carpentry-2017-08-27" class="section level1">
+<h1>Final Exercise software carpentry 2017-08-27</h1>
+<ol style="list-style-type: decimal">
+<li>Import necessary packages</li>
+</ol>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubGlicmFyeShyZWFkcilcbmxpYnJhcnkoZHBseXIpXG5saWJyYXJ5KGdncGxvdDIpXG5pZiAoIXJlcXVpcmUoXCJkZXZ0b29sc1wiKSkgaW5zdGFsbC5wYWNrYWdlcyhcImRldnRvb2xzXCIpXG5kZXZ0b29sczo6aW5zdGFsbF9naXRodWIoXCJ0cmVzdGxldGVjaC9zaGlueUFjZVwiKVxuZGV2dG9vbHM6Omluc3RhbGxfZ2l0aHViKFwic3dhcm0tbGFiL2VkaXRSXCIpXG5cbmxpYnJhcnkoZWRpdFIpXG5gYGAifQ== -->
+<pre class="r"><code>library(readr)
+library(dplyr)
+library(ggplot2)
+if (!require(&quot;devtools&quot;)) install.packages(&quot;devtools&quot;)
+devtools::install_github(&quot;trestletech/shinyAce&quot;)
+devtools::install_github(&quot;swarm-lab/editR&quot;)
+
+library(editR)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<ol start="2" style="list-style-type: decimal">
+<li>Read in data set</li>
+</ol>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc2V0d2QoJ2M6L1VzZXJzL3JlaXNzYi9TRENfd29ya3Nob3BfMjAxNzA4MjYvaW50cm8tci0yMDE3MDgyNS8nKVxuXG5nYXBtaW5kZXIuYmFzZSA8LSByZWFkLmNzdihmaWxlID0nZGF0YXNldHMvZ2FwbWluZGVyX2JhY2t1cC50eHQnLGhlYWRlcj1UUlVFLCBzZXAgPSdcXHQnKVxuZ2FwbWluZGVyIDwtIHJlYWRfZGVsaW0oJy4uL2ludHJvLXItMjAxNzA4MjUvZGF0YXNldHMvZ2FwbWluZGVyX2JhY2t1cC50eHQnLCdcXHQnLGVzY2FwZV9kb3VibGUgPSBGQUxTRSwgdHJpbV93cyA9IFRSVUUpXG5cblxuYGBgIn0= -->
+<pre class="r"><code>setwd('c:/Users/reissb/SDC_workshop_20170826/intro-r-20170825/')
+
+gapminder.base &lt;- read.csv(file ='datasets/gapminder_backup.txt',header=TRUE, sep ='\t')
+gapminder &lt;- read_delim('../intro-r-20170825/datasets/gapminder_backup.txt','\t',escape_double = FALSE, trim_ws = TRUE)
+</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<ol start="3" style="list-style-type: decimal">
+<li>Explore gapminder dataset
+<ol style="list-style-type: decimal">
+<li>Get summary statistics for gapminder variables</li>
+</ol></li>
+</ol>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc3VtbWFyeShnYXBtaW5kZXIpXG5gYGAifQ== -->
+<pre class="r"><code>summary(gapminder)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<pre><code>2. Peek at the first 6 rows of gapminder</code></pre>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuaGVhZChnYXBtaW5kZXIpXG5gYGAifQ== -->
+<pre class="r"><code>head(gapminder)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<ol start="4" style="list-style-type: decimal">
+<li>Manipulate gapminder to answer questions
+<ol style="list-style-type: decimal">
+<li>Which country has the highest gdp per capita, and in what year?</li>
+</ol></li>
+</ol>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuZ2FwbWluZGVyICU+JSBmaWx0ZXIoZ2RwUGVyY2FwID09IG1heChnZHBQZXJjYXApKSAlPiUgc2VsZWN0KGNvdW50cnksIHllYXIpXG5cbmBgYCJ9 -->
+<pre class="r"><code>gapminder %&gt;% filter(gdpPercap == max(gdpPercap)) %&gt;% select(country, year)
+</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<pre><code>2. What is the lowest life expectancy in the gapminder data set and what country had it?</code></pre>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-frame-begin eyJtZXRhZGF0YSI6eyJjbGFzc2VzIjpbInRibF9kZiIsInRibCIsImRhdGEuZnJhbWUiXSwibmNvbCI6MSwibnJvdyI6MX0sInJkZiI6Ikg0c0lBQUFBQUFBQUJsMlF3UTdDSUF5R085ZzBrbWhNOURsMjhCbDhBazllSzBORGdyQXd6UFRtazIrV0JSSURDVzM1K1VMN2N6bGZUK0lxQUlBQjV3d1lwN0ptRkNxb1lSUHpHNEFmRmdGZy8zZXh1b3hvT3l6d1Job2NoZ0lWSFFaczd4NmZxc1F0YVNXK2x1NWxnLzhVN01hN3NjMzhObzc4cFREVG9qUVY4TnIxUVR0TEtJdkROMFdMeWhmQzBiaFJEY0hvdTFMdlhzbUFWbjdpNk1rNXBKNVYybjkxN012bjlGNlRmMGZaaDdZcTJ6UjRVeVlkZHVSanNkSDJYdHVRLzRqVW9RMHVZT2FFZENZcmkwR1lmako2ZWdTdkFRQUEifQ== -->
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["country"],"name":[1],"type":["chr"],"align":["left"]}],"data":[{"1":"Rwanda"}],"options":{"columns":{"min":{},"max":[10],"total":[1]},"rows":{"min":[10],"max":[10],"total":[1]},"pages":{}}}
+  </script>
+</div>
+<!-- rnb-frame-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<pre><code>3. ADVANCED: How many countries have ever had a life expectancy lower than 50</code></pre>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuZ2FwbWluZGVyICU+JSBmaWx0ZXIobGlmZUV4cCA8IDUwKSAlPiUgc2VsZWN0KGNvdW50cnkpICU+JSB1bmlxdWUoKSAlPiUgbnJvdygpXG5cbmBgYCJ9 -->
+<pre class="r"><code>gapminder %&gt;% filter(lifeExp &lt; 50) %&gt;% select(country) %&gt;% unique() %&gt;% nrow()
+</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiWzFdIDgyXG4ifQ== -->
+<pre><code>[1] 82</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<pre><code>4. ADVANCED: How many total countries are there listed in Asia?</code></pre>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuZ2FwbWluZGVyICU+JSBmaWx0ZXIoY29udGluZW50ID09ICdBc2lhJykgJT4lIHNlbGVjdChjb3VudHJ5KSAlPiUgdW5pcXVlKCkgJT4lIG5yb3coKVxuXG5gYGAifQ== -->
+<pre class="r"><code>gapminder %&gt;% filter(continent == 'Asia') %&gt;% select(country) %&gt;% unique() %&gt;% nrow()
+</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiWzFdIDMzXG4ifQ== -->
+<pre><code>[1] 33</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<pre><code>5. Make a new column that has the gdp (instead of gdpPercap) Hint: multiply gdpPercap by pop to get gdp.</code></pre>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuZ2FwbWluZGVyICU+JSBhc190aWJibGUoKSAlPiUgbXV0YXRlKGdkcCA9IGdkcFBlcmNhcCAqIHBvcCApXG4gIFxuYGBgIn0= -->
+<pre class="r"><code>gapminder %&gt;% as_tibble() %&gt;% mutate(gdp = gdpPercap * pop )
+  </code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<ol start="5" style="list-style-type: decimal">
+<li>Loops &amp; if else
+<ol style="list-style-type: decimal">
+<li>Create a loop that goes through each row and evaluates whether the population is above, below, or at the mean population. Initialize a column, called RelationToMeanPop with NA values (syntax: df$newColumnName &lt;- NA) for each row of 1:nrow(gapminder2)</li>
+</ol></li>
+</ol>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuZ2FwbWluZGVyICU+JSBhc190aWJibGUoKSAlPiUgbXV0YXRlKFJlbGF0aW9uVG9NZWFuUG9wPC1OQSlcblxuYGBgIn0= -->
+<pre class="r"><code>gapminder %&gt;% as_tibble() %&gt;% mutate(RelationToMeanPop&lt;-NA)
+</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<pre><code>2. if gapminder2$pop[row] &gt; mean(gapminder2$pop), assign Above to gapminder2$RelationToMeanPop[row]
+        else if gapminder2$pop[row] &lt; mean(gapminder2$pop), assign Below to gapminder2$RelationToMeanPop[row]
+        else if gapminder2$pop[row] == mean(gapminder2$pop), assign At to gapminder2$RelationToMeanPop[row]
+        else go to the next loop using next.
+        </code></pre>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuZ2FwbWluZGVyICU+JSBncm91cF9ieSh5ZWFyKSAlPiUgbXV0YXRlKHllYXJtZWFuID0gbWVhbihwb3ApKSAlPiUgdW5ncm91cCgpICU+JVxuICBtdXRhdGUoIFJlbGF0aW9uVG9NZWFuUG9wID0gaWZlbHNlKHBvcCA+IHllYXJtZWFuLCdBYm92ZScsaWZlbHNlKHBvcDx5ZWFybWVhbiwnQmVsb3cnLCdBdCcgKSApICkgJT4lIFxuICBzZWxlY3QoeWVhciwgUmVsYXRpb25Ub01lYW5Qb3ApICU+JSBcbiAgdGFibGUoKVxuYGBgIn0= -->
+<pre class="r"><code>gapminder %&gt;% group_by(year) %&gt;% mutate(yearmean = mean(pop)) %&gt;% ungroup() %&gt;%
+  mutate( RelationToMeanPop = ifelse(pop &gt; yearmean,'Above',ifelse(pop&lt;yearmean,'Below','At' ) ) ) %&gt;% 
+  select(year, RelationToMeanPop) %&gt;% 
+  table()</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiICAgICAgUmVsYXRpb25Ub01lYW5Qb3BcbnllYXIgICBBYm92ZSBCZWxvd1xuICAxOTUyICAgIDI2ICAgMTE2XG4gIDE5NTcgICAgMjYgICAxMTZcbiAgMTk2MiAgICAyNiAgIDExNlxuICAxOTY3ICAgIDI2ICAgMTE2XG4gIDE5NzIgICAgMjUgICAxMTdcbiAgMTk3NyAgICAyNSAgIDExN1xuICAxOTgyICAgIDI3ICAgMTE1XG4gIDE5ODcgICAgMjcgICAxMTVcbiAgMTk5MiAgICAyNyAgIDExNVxuICAxOTk3ICAgIDI2ICAgMTE2XG4gIDIwMDIgICAgMjUgICAxMTdcbiAgMjAwNyAgICAyNSAgIDExN1xuIn0= -->
+<pre><code>      RelationToMeanPop
+year   Above Below
+  1952    26   116
+  1957    26   116
+  1962    26   116
+  1967    26   116
+  1972    25   117
+  1977    25   117
+  1982    27   115
+  1987    27   115
+  1992    27   115
+  1997    26   116
+  2002    25   117
+  2007    25   117</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<pre><code>    Run this for loop. Don't forget to check your work by looking at the RelationToMeanPop column
+    Use table(gapminder2$RelationToMeanPop) to find out how many fit into each group.
+
+
+
+Plots
+    Create a plot with x=year, y=lifeExp, and color by continent. Use geom_smooth() to create a line to view life expectancy by year. Answer the following questions using the plot (you can verify by running some code).
+        What continent has the highest life expectancy?
+        What continent has the lowest life expectancy?
+        On what continents has the life expectancy been increasing or decreasing over time?
+    Create a plot with x=continent, y=gdpPercap, and fill by continent. Use geom_boxplot() to create a boxplot for each continent. Use the plot to answer the following questions
+        Which continent tends to have the lowest gross domestic product (gdp)?
+        Which continent tends to have the highest gdp?
+        Which continent has the country with the highest gdp?</code></pre>
 <p>This is an <a href="http://rmarkdown.rstudio.com">R Markdown</a> Notebook. When you execute code within the notebook, the results appear beneath the code.</p>
 <p>Try executing this chunk by clicking the <em>Run</em> button within the chunk or by placing your cursor inside it and pressing <em>Ctrl+Shift+Enter</em>.</p>
 <!-- rnb-text-end -->
@@ -184,8 +356,9 @@ $(document).ready(function () {
 <p>Add a new chunk by clicking the <em>Insert Chunk</em> button on the toolbar or by pressing <em>Ctrl+Alt+I</em>.</p>
 <p>When you save the notebook, an HTML file containing the code and output will be saved alongside it (click the <em>Preview</em> button or press <em>Ctrl+Shift+K</em> to preview the HTML file).</p>
 <!-- rnb-text-end -->
+</div>
 
-<div id="rmd-source-code">LS0tDQp0aXRsZTogIlIgTm90ZWJvb2sgLSB3b3Jrc2hvcCINCm91dHB1dDogaHRtbF9ub3RlYm9vaw0KLS0tDQoNClRoaXMgaXMgYW4gW1IgTWFya2Rvd25dKGh0dHA6Ly9ybWFya2Rvd24ucnN0dWRpby5jb20pIE5vdGVib29rLiBXaGVuIHlvdSBleGVjdXRlIGNvZGUgd2l0aGluIHRoZSBub3RlYm9vaywgdGhlIHJlc3VsdHMgYXBwZWFyIGJlbmVhdGggdGhlIGNvZGUuIA0KDQpUcnkgZXhlY3V0aW5nIHRoaXMgY2h1bmsgYnkgY2xpY2tpbmcgdGhlICpSdW4qIGJ1dHRvbiB3aXRoaW4gdGhlIGNodW5rIG9yIGJ5IHBsYWNpbmcgeW91ciBjdXJzb3IgaW5zaWRlIGl0IGFuZCBwcmVzc2luZyAqQ3RybCtTaGlmdCtFbnRlciouIA0KDQpgYGB7cn0NCnBsb3QoY2FycykNCmBgYA0KDQpBZGQgYSBuZXcgY2h1bmsgYnkgY2xpY2tpbmcgdGhlICpJbnNlcnQgQ2h1bmsqIGJ1dHRvbiBvbiB0aGUgdG9vbGJhciBvciBieSBwcmVzc2luZyAqQ3RybCtBbHQrSSouDQoNCldoZW4geW91IHNhdmUgdGhlIG5vdGVib29rLCBhbiBIVE1MIGZpbGUgY29udGFpbmluZyB0aGUgY29kZSBhbmQgb3V0cHV0IHdpbGwgYmUgc2F2ZWQgYWxvbmdzaWRlIGl0IChjbGljayB0aGUgKlByZXZpZXcqIGJ1dHRvbiBvciBwcmVzcyAqQ3RybCtTaGlmdCtLKiB0byBwcmV2aWV3IHRoZSBIVE1MIGZpbGUpLg0KDQo=</div>
+<div id="rmd-source-code">LS0tDQp0aXRsZTogIlIgTm90ZWJvb2sgLSB3b3Jrc2hvcCINCm91dHB1dDoNCiAgaHRtbF9kb2N1bWVudDogZGVmYXVsdA0KICBodG1sX25vdGVib29rOiBkZWZhdWx0DQotLS0NCg0KIyBGaW5hbCBFeGVyY2lzZSBzb2Z0d2FyZSBjYXJwZW50cnkgMjAxNy0wOC0yNw0KDQoxLiBJbXBvcnQgbmVjZXNzYXJ5IHBhY2thZ2VzDQpgYGB7ciBsb2FkbGlicmFyaWVzfQ0KbGlicmFyeShyZWFkcikNCmxpYnJhcnkoZHBseXIpDQpsaWJyYXJ5KGdncGxvdDIpDQppZiAoIXJlcXVpcmUoImRldnRvb2xzIikpIGluc3RhbGwucGFja2FnZXMoImRldnRvb2xzIikNCmRldnRvb2xzOjppbnN0YWxsX2dpdGh1YigidHJlc3RsZXRlY2gvc2hpbnlBY2UiKQ0KZGV2dG9vbHM6Omluc3RhbGxfZ2l0aHViKCJzd2FybS1sYWIvZWRpdFIiKQ0KDQpsaWJyYXJ5KGVkaXRSKQ0KYGBgDQoNCjIuIFJlYWQgaW4gZGF0YSBzZXQNCmBgYHtyIHJlYWRkYXRhc2V0fQ0Kc2V0d2QoJ2M6L1VzZXJzL3JlaXNzYi9TRENfd29ya3Nob3BfMjAxNzA4MjYvaW50cm8tci0yMDE3MDgyNS8nKQ0KDQpnYXBtaW5kZXIuYmFzZSA8LSByZWFkLmNzdihmaWxlID0nZGF0YXNldHMvZ2FwbWluZGVyX2JhY2t1cC50eHQnLGhlYWRlcj1UUlVFLCBzZXAgPSdcdCcpDQpnYXBtaW5kZXIgPC0gcmVhZF9kZWxpbSgnLi4vaW50cm8tci0yMDE3MDgyNS9kYXRhc2V0cy9nYXBtaW5kZXJfYmFja3VwLnR4dCcsJ1x0Jyxlc2NhcGVfZG91YmxlID0gRkFMU0UsIHRyaW1fd3MgPSBUUlVFKQ0KDQoNCmBgYA0KDQoNCg0KMy4gIEV4cGxvcmUgZ2FwbWluZGVyIGRhdGFzZXQNCiAgICAxLiAgICBHZXQgc3VtbWFyeSBzdGF0aXN0aWNzIGZvciBnYXBtaW5kZXIgdmFyaWFibGVzDQpgYGB7ciBleHBsb3JlIGRhdGFzZXRzfSAgICAgDQpzdW1tYXJ5KGdhcG1pbmRlcikNCmBgYA0KICAgIDIuIFBlZWsgYXQgdGhlIGZpcnN0IDYgcm93cyBvZiBnYXBtaW5kZXINCmBgYHtyIGhlYWR9DQpoZWFkKGdhcG1pbmRlcikNCmBgYA0KNC4gTWFuaXB1bGF0ZSBnYXBtaW5kZXIgdG8gYW5zd2VyIHF1ZXN0aW9ucw0KICAgIDEuICBXaGljaCBjb3VudHJ5IGhhcyB0aGUgaGlnaGVzdCBnZHAgcGVyIGNhcGl0YSwgYW5kIGluIHdoYXQgeWVhcj8NCmBgYHtyIGhpZ2hlc3RnZHBwZXJjYXBpdGF9DQpnYXBtaW5kZXIgJT4lIGZpbHRlcihnZHBQZXJjYXAgPT0gbWF4KGdkcFBlcmNhcCkpICU+JSBzZWxlY3QoY291bnRyeSwgeWVhcikNCg0KYGBgDQogICAgMi4gV2hhdCBpcyB0aGUgbG93ZXN0IGxpZmUgZXhwZWN0YW5jeSBpbiB0aGUgZ2FwbWluZGVyIGRhdGEgc2V0IGFuZCB3aGF0IGNvdW50cnkgaGFkIGl0Pw0KYGBge3IgbG93ZXN0bGlmZWV4cGVjdGFuY3l9ICAgIA0KZ2FwbWluZGVyICU+JSBmaWx0ZXIobGlmZUV4cCA9PSBtaW4obGlmZUV4cCkpICU+JSBzZWxlY3QoY291bnRyeSkgDQoNCmBgYA0KICAgIDMuIEFEVkFOQ0VEOiBIb3cgbWFueSBjb3VudHJpZXMgaGF2ZSBldmVyIGhhZCBhIGxpZmUgZXhwZWN0YW5jeSBsb3dlciB0aGFuIDUwDQpgYGB7ciBOY291bnRyaWVzbGlmZWV4cDw1MH0NCmdhcG1pbmRlciAlPiUgZmlsdGVyKGxpZmVFeHAgPCA1MCkgJT4lIHNlbGVjdChjb3VudHJ5KSAlPiUgdW5pcXVlKCkgJT4lIG5yb3coKQ0KYGBgDQogICAgNC4gQURWQU5DRUQ6IEhvdyBtYW55IHRvdGFsIGNvdW50cmllcyBhcmUgdGhlcmUgbGlzdGVkIGluIEFzaWE/DQpgYGB7ciBOQXNpYX0NCmdhcG1pbmRlciAlPiUgZmlsdGVyKGNvbnRpbmVudCA9PSAnQXNpYScpICU+JSBzZWxlY3QoY291bnRyeSkgJT4lIHVuaXF1ZSgpICU+JSBucm93KCkNCmBgYA0KICAgIDUuIE1ha2UgYSBuZXcgY29sdW1uIHRoYXQgaGFzIHRoZSBnZHAgKGluc3RlYWQgb2YgZ2RwUGVyY2FwKSBIaW50OiBtdWx0aXBseSBnZHBQZXJjYXAgYnkgcG9wIHRvIGdldCBnZHAuDQpgYGB7ciBuZXdDb2wgZ2RwfQ0KZ2FwbWluZGVyICU+JSBhc190aWJibGUoKSAlPiUgbXV0YXRlKGdkcCA9IGdkcFBlcmNhcCAqIHBvcCApDQogIA0KYGBgDQogICAgDQo1LiBMb29wcyAmIGlmIGVsc2UNCiAgICAxLiBDcmVhdGUgYSBsb29wIHRoYXQgZ29lcyB0aHJvdWdoIGVhY2ggcm93IGFuZCBldmFsdWF0ZXMgd2hldGhlciB0aGUgcG9wdWxhdGlvbiBpcyBhYm92ZSwgYmVsb3csIG9yIGF0IHRoZSBtZWFuIHBvcHVsYXRpb24uDQogICAgICAgICAgICBJbml0aWFsaXplIGEgY29sdW1uLCBjYWxsZWQgUmVsYXRpb25Ub01lYW5Qb3Agd2l0aCBOQSB2YWx1ZXMgKHN5bnRheDogZGYkbmV3Q29sdW1uTmFtZSA8LSBOQSkNCiAgICAgICAgICAgIGZvciBlYWNoIHJvdyBvZiAxOm5yb3coZ2FwbWluZGVyMikNCg0KYGBge3IgbG9vcGFib3Zlb3JiZWxvd21lYW4gcG9wdWxhdGlvbn0NCmdhcG1pbmRlciAlPiUgYXNfdGliYmxlKCkgJT4lIG11dGF0ZShSZWxhdGlvblRvTWVhblBvcDwtTkEpDQoNCmBgYA0KICAgIDIuIGlmIGdhcG1pbmRlcjIkcG9wW3Jvd10gPiBtZWFuKGdhcG1pbmRlcjIkcG9wKSwgYXNzaWduIEFib3ZlIHRvIGdhcG1pbmRlcjIkUmVsYXRpb25Ub01lYW5Qb3Bbcm93XQ0KICAgICAgICAgICAgZWxzZSBpZiBnYXBtaW5kZXIyJHBvcFtyb3ddIDwgbWVhbihnYXBtaW5kZXIyJHBvcCksIGFzc2lnbiBCZWxvdyB0byBnYXBtaW5kZXIyJFJlbGF0aW9uVG9NZWFuUG9wW3Jvd10NCiAgICAgICAgICAgIGVsc2UgaWYgZ2FwbWluZGVyMiRwb3Bbcm93XSA9PSBtZWFuKGdhcG1pbmRlcjIkcG9wKSwgYXNzaWduIEF0IHRvIGdhcG1pbmRlcjIkUmVsYXRpb25Ub01lYW5Qb3Bbcm93XQ0KICAgICAgICAgICAgZWxzZSBnbyB0byB0aGUgbmV4dCBsb29wIHVzaW5nIG5leHQuDQogICAgICAgICAgICANCmBgYHtyIGlmfQ0KZ2FwbWluZGVyICU+JSBncm91cF9ieSh5ZWFyKSAlPiUgbXV0YXRlKHllYXJtZWFuID0gbWVhbihwb3ApKSAlPiUgdW5ncm91cCgpICU+JQ0KICBtdXRhdGUoIFJlbGF0aW9uVG9NZWFuUG9wID0gaWZlbHNlKHBvcCA+IHllYXJtZWFuLCdBYm92ZScsaWZlbHNlKHBvcDx5ZWFybWVhbiwnQmVsb3cnLCdBdCcgKSApICkgJT4lIA0KICBzZWxlY3QoeWVhciwgUmVsYXRpb25Ub01lYW5Qb3ApICU+JSANCiAgdGFibGUoKQ0KDQoNCmBgYA0KICAgICAgICAgICAgDQogICAgICAgIFJ1biB0aGlzIGZvciBsb29wLiBEb24ndCBmb3JnZXQgdG8gY2hlY2sgeW91ciB3b3JrIGJ5IGxvb2tpbmcgYXQgdGhlIFJlbGF0aW9uVG9NZWFuUG9wIGNvbHVtbg0KICAgICAgICBVc2UgdGFibGUoZ2FwbWluZGVyMiRSZWxhdGlvblRvTWVhblBvcCkgdG8gZmluZCBvdXQgaG93IG1hbnkgZml0IGludG8gZWFjaCBncm91cC4NCiAgIA0KICAgDQogICANCiAgICBQbG90cw0KICAgICAgICBDcmVhdGUgYSBwbG90IHdpdGggeD15ZWFyLCB5PWxpZmVFeHAsIGFuZCBjb2xvciBieSBjb250aW5lbnQuIFVzZSBnZW9tX3Ntb290aCgpIHRvIGNyZWF0ZSBhIGxpbmUgdG8gdmlldyBsaWZlIGV4cGVjdGFuY3kgYnkgeWVhci4gQW5zd2VyIHRoZSBmb2xsb3dpbmcgcXVlc3Rpb25zIHVzaW5nIHRoZSBwbG90ICh5b3UgY2FuIHZlcmlmeSBieSBydW5uaW5nIHNvbWUgY29kZSkuDQogICAgICAgICAgICBXaGF0IGNvbnRpbmVudCBoYXMgdGhlIGhpZ2hlc3QgbGlmZSBleHBlY3RhbmN5Pw0KICAgICAgICAgICAgV2hhdCBjb250aW5lbnQgaGFzIHRoZSBsb3dlc3QgbGlmZSBleHBlY3RhbmN5Pw0KICAgICAgICAgICAgT24gd2hhdCBjb250aW5lbnRzIGhhcyB0aGUgbGlmZSBleHBlY3RhbmN5IGJlZW4gaW5jcmVhc2luZyBvciBkZWNyZWFzaW5nIG92ZXIgdGltZT8NCiAgICAgICAgQ3JlYXRlIGEgcGxvdCB3aXRoIHg9Y29udGluZW50LCB5PWdkcFBlcmNhcCwgYW5kIGZpbGwgYnkgY29udGluZW50LiBVc2UgZ2VvbV9ib3hwbG90KCkgdG8gY3JlYXRlIGEgYm94cGxvdCBmb3IgZWFjaCBjb250aW5lbnQuIFVzZSB0aGUgcGxvdCB0byBhbnN3ZXIgdGhlIGZvbGxvd2luZyBxdWVzdGlvbnMNCiAgICAgICAgICAgIFdoaWNoIGNvbnRpbmVudCB0ZW5kcyB0byBoYXZlIHRoZSBsb3dlc3QgZ3Jvc3MgZG9tZXN0aWMgcHJvZHVjdCAoZ2RwKT8NCiAgICAgICAgICAgIFdoaWNoIGNvbnRpbmVudCB0ZW5kcyB0byBoYXZlIHRoZSBoaWdoZXN0IGdkcD8NCiAgICAgICAgICAgIFdoaWNoIGNvbnRpbmVudCBoYXMgdGhlIGNvdW50cnkgd2l0aCB0aGUgaGlnaGVzdCBnZHA/DQoNCg0KDQoNClRoaXMgaXMgYW4gW1IgTWFya2Rvd25dKGh0dHA6Ly9ybWFya2Rvd24ucnN0dWRpby5jb20pIE5vdGVib29rLiBXaGVuIHlvdSBleGVjdXRlIGNvZGUgd2l0aGluIHRoZSBub3RlYm9vaywgdGhlIHJlc3VsdHMgYXBwZWFyIGJlbmVhdGggdGhlIGNvZGUuIA0KDQpUcnkgZXhlY3V0aW5nIHRoaXMgY2h1bmsgYnkgY2xpY2tpbmcgdGhlICpSdW4qIGJ1dHRvbiB3aXRoaW4gdGhlIGNodW5rIG9yIGJ5IHBsYWNpbmcgeW91ciBjdXJzb3IgaW5zaWRlIGl0IGFuZCBwcmVzc2luZyAqQ3RybCtTaGlmdCtFbnRlciouIA0KDQpgYGB7cn0NCnBsb3QoY2FycykNCmBgYA0KDQpBZGQgYSBuZXcgY2h1bmsgYnkgY2xpY2tpbmcgdGhlICpJbnNlcnQgQ2h1bmsqIGJ1dHRvbiBvbiB0aGUgdG9vbGJhciBvciBieSBwcmVzc2luZyAqQ3RybCtBbHQrSSouDQoNCldoZW4geW91IHNhdmUgdGhlIG5vdGVib29rLCBhbiBIVE1MIGZpbGUgY29udGFpbmluZyB0aGUgY29kZSBhbmQgb3V0cHV0IHdpbGwgYmUgc2F2ZWQgYWxvbmdzaWRlIGl0IChjbGljayB0aGUgKlByZXZpZXcqIGJ1dHRvbiBvciBwcmVzcyAqQ3RybCtTaGlmdCtLKiB0byBwcmV2aWV3IHRoZSBIVE1MIGZpbGUpLg0KDQo=</div>
 
 
 

@@ -1,7 +1,110 @@
 ---
 title: "R Notebook - workshop"
-output: html_notebook
+output:
+  html_document: default
+  html_notebook: default
 ---
+
+# Final Exercise software carpentry 2017-08-27
+
+1. Import necessary packages
+```{r loadlibraries}
+library(readr)
+library(dplyr)
+library(ggplot2)
+if (!require("devtools")) install.packages("devtools")
+devtools::install_github("trestletech/shinyAce")
+devtools::install_github("swarm-lab/editR")
+
+library(editR)
+```
+
+2. Read in data set
+```{r readdataset}
+setwd('c:/Users/reissb/SDC_workshop_20170826/intro-r-20170825/')
+
+gapminder.base <- read.csv(file ='datasets/gapminder_backup.txt',header=TRUE, sep ='\t')
+gapminder <- read_delim('../intro-r-20170825/datasets/gapminder_backup.txt','\t',escape_double = FALSE, trim_ws = TRUE)
+
+
+```
+
+
+
+3.  Explore gapminder dataset
+    1.    Get summary statistics for gapminder variables
+```{r explore datasets}     
+summary(gapminder)
+```
+    2. Peek at the first 6 rows of gapminder
+```{r head}
+head(gapminder)
+```
+4. Manipulate gapminder to answer questions
+    1.  Which country has the highest gdp per capita, and in what year?
+```{r highestgdppercapita}
+gapminder %>% filter(gdpPercap == max(gdpPercap)) %>% select(country, year)
+
+```
+    2. What is the lowest life expectancy in the gapminder data set and what country had it?
+```{r lowestlifeexpectancy}    
+gapminder %>% filter(lifeExp == min(lifeExp)) %>% select(country) 
+
+```
+    3. ADVANCED: How many countries have ever had a life expectancy lower than 50
+```{r Ncountrieslifeexp<50}
+gapminder %>% filter(lifeExp < 50) %>% select(country) %>% unique() %>% nrow()
+```
+    4. ADVANCED: How many total countries are there listed in Asia?
+```{r NAsia}
+gapminder %>% filter(continent == 'Asia') %>% select(country) %>% unique() %>% nrow()
+```
+    5. Make a new column that has the gdp (instead of gdpPercap) Hint: multiply gdpPercap by pop to get gdp.
+```{r newCol gdp}
+gapminder %>% as_tibble() %>% mutate(gdp = gdpPercap * pop )
+  
+```
+    
+5. Loops & if else
+    1. Create a loop that goes through each row and evaluates whether the population is above, below, or at the mean population.
+            Initialize a column, called RelationToMeanPop with NA values (syntax: df$newColumnName <- NA)
+            for each row of 1:nrow(gapminder2)
+
+```{r loopaboveorbelowmean population}
+gapminder %>% as_tibble() %>% mutate(RelationToMeanPop<-NA)
+
+```
+    2. if gapminder2$pop[row] > mean(gapminder2$pop), assign Above to gapminder2$RelationToMeanPop[row]
+            else if gapminder2$pop[row] < mean(gapminder2$pop), assign Below to gapminder2$RelationToMeanPop[row]
+            else if gapminder2$pop[row] == mean(gapminder2$pop), assign At to gapminder2$RelationToMeanPop[row]
+            else go to the next loop using next.
+            
+```{r if}
+gapminder %>% group_by(year) %>% mutate(yearmean = mean(pop)) %>% ungroup() %>%
+  mutate( RelationToMeanPop = ifelse(pop > yearmean,'Above',ifelse(pop<yearmean,'Below','At' ) ) ) %>% 
+  select(year, RelationToMeanPop) %>% 
+  table()
+
+
+```
+            
+        Run this for loop. Don't forget to check your work by looking at the RelationToMeanPop column
+        Use table(gapminder2$RelationToMeanPop) to find out how many fit into each group.
+   
+   
+   
+    Plots
+        Create a plot with x=year, y=lifeExp, and color by continent. Use geom_smooth() to create a line to view life expectancy by year. Answer the following questions using the plot (you can verify by running some code).
+            What continent has the highest life expectancy?
+            What continent has the lowest life expectancy?
+            On what continents has the life expectancy been increasing or decreasing over time?
+        Create a plot with x=continent, y=gdpPercap, and fill by continent. Use geom_boxplot() to create a boxplot for each continent. Use the plot to answer the following questions
+            Which continent tends to have the lowest gross domestic product (gdp)?
+            Which continent tends to have the highest gdp?
+            Which continent has the country with the highest gdp?
+
+
+
 
 This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code. 
 
