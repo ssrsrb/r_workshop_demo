@@ -58,6 +58,10 @@ gapminder %>% filter(lifeExp < 50) %>% select(country) %>% unique() %>% nrow()
     4. ADVANCED: How many total countries are there listed in Asia?
 ```{r NAsia}
 gapminder %>% filter(continent == 'Asia') %>% select(country) %>% unique() %>% nrow()
+
+gapminder %>% filter(continent == 'Asia') %>% 
+  distinct(country) %>% 
+  count()
 ```
     5. Make a new column that has the gdp (instead of gdpPercap) Hint: multiply gdpPercap by pop to get gdp.
 ```{r newCol gdp}
@@ -79,18 +83,57 @@ gapminder %>% as_tibble() %>% mutate(RelationToMeanPop<-NA)
             else if gapminder2$pop[row] == mean(gapminder2$pop), assign At to gapminder2$RelationToMeanPop[row]
             else go to the next loop using next.
             
-```{r if}
+```{r if dplyr}
+gapminder %>% 
+  mutate( RelationToMeanPop = ifelse(pop > mean(pop),'Above',ifelse(pop< mean(pop),'Below','At' ) ) ) %>% 
+  select(RelationToMeanPop) %>% 
+  table()
+
 gapminder %>% group_by(year) %>% mutate(yearmean = mean(pop)) %>% ungroup() %>%
+  mutate( RelationToMeanPop = ifelse(pop > yearmean,'Above',ifelse(pop<yearmean,'Below','At' ) ) ) %>% 
+  select(RelationToMeanPop) %>% 
+  table()
+
+
+gapminder %>% group_by(year) %>% mutate(yearmean = mean(pop)) %>% ungroup() %>%
+  mutate( RelationToMeanPop = ifelse(pop > yearmean,'Above',ifelse(pop<yearmean,'Below','At' ) ) ) %>% 
+  select(year, RelationToMeanPop) %>% 
+  table()
+
+gapminder %>% group_by(year) %>% 
   mutate( RelationToMeanPop = ifelse(pop > yearmean,'Above',ifelse(pop<yearmean,'Below','At' ) ) ) %>% 
   select(year, RelationToMeanPop) %>% 
   table()
 
 
 ```
+```{r forloop}
+gapminder$RelationToMeanPop<-NA
+#alternative gapminder$pop[i]
+for(i in 1:nrow(gapminder))
+{
+  if(gapminder[i,'pop']> mean(gapminder$pop)){
+      gapminder$RelationToMeanPop[i] <- 'Above'
+  } else if(gapminder$pop[i]< mean(gapminder$pop)){
+      gapminder$RelationToMeanPop[i] <- 'Below'
+  }  else if(gapminder$pop[i] == mean(gapminder$pop)){
+    gapminder$RelationToMeanPop[i] <- 'At'
+  } else next
+}
+table(gapminder$RelationToMeanPop)
+
+```
+            
             
         Run this for loop. Don't forget to check your work by looking at the RelationToMeanPop column
         Use table(gapminder2$RelationToMeanPop) to find out how many fit into each group.
-   
+```{r ggplot}
+library(ggplot2)
+ggplot(gapminder, aes(x=year, y=lifeExp, col=continent)) + geom_smooth(method ="lm", se=F)
+
+ggplot(gapminder, aes(x=continent, y=gdpPercap, col=continent))+geom_boxplot()
+
+```
    
    
     Plots
